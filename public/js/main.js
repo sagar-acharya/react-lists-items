@@ -20765,14 +20765,21 @@ var List = React.createClass({
     displayName: 'List',
 
     render: function () {
+        var divStyle = {
+            marginTop: 60
+        };
         var createItem = function (text, index) {
             return React.createElement(ListItem, { key: index + text, text: text });
         };
 
         return React.createElement(
-            'ul',
-            null,
-            this.props.items.map(createItem)
+            'div',
+            { style: divStyle },
+            React.createElement(
+                'ul',
+                { className: 'nav nav-pills' },
+                this.props.items.map(createItem)
+            )
         );
     }
 });
@@ -20783,15 +20790,15 @@ module.exports = List;
 var React = require('react');
 
 var ListItem = React.createClass({
-    displayName: 'ListItem',
+    displayName: "ListItem",
 
     render: function () {
         return React.createElement(
-            'li',
-            null,
+            "li",
+            { className: "list-group-item btn btn-success" },
             React.createElement(
-                'h4',
-                null,
+                "span",
+                { role: "presentation", className: "" },
                 this.props.text
             )
         );
@@ -20824,25 +20831,48 @@ var ListManager = React.createClass({
         this.setState({ items: currentItems, newItemText: '' });
     },
     render: function () {
+        var divStyle = {
+            marginTop: 20
+        };
         return React.createElement(
             'div',
-            null,
+            { style: divStyle, className: 'col-sm-4 col-md-4 col-md-4 col-xs-4' },
             React.createElement(
-                'h3',
-                null,
-                this.props.title
-            ),
-            React.createElement(
-                'form',
-                { onSubmit: this.handleSubmit },
-                React.createElement('input', { onChange: this.onChange, value: this.state.newItemText }),
+                'div',
+                { className: 'panel panel-primary' },
                 React.createElement(
-                    'button',
-                    null,
-                    'Add'
+                    'div',
+                    { className: 'panel-heading' },
+                    React.createElement(
+                        'h3',
+                        null,
+                        this.props.title
+                    )
+                ),
+                React.createElement(
+                    'div',
+                    { className: 'panel-body' },
+                    React.createElement(
+                        'form',
+                        { onSubmit: this.handleSubmit },
+                        React.createElement(
+                            'div',
+                            { className: 'col-sm-9 col-md-9 col-md-9 col-xs-9' },
+                            React.createElement('input', { className: 'form-control', onChange: this.onChange, value: this.state.newItemText })
+                        ),
+                        React.createElement(
+                            'div',
+                            { className: 'col-sm-2 col-md-2 col-md-2 col-xs-2' },
+                            React.createElement(
+                                'button',
+                                { className: 'btn btn-primary' },
+                                'Add'
+                            )
+                        )
+                    ),
+                    React.createElement(List, { items: this.state.items })
                 )
-            ),
-            React.createElement(List, { items: this.state.items })
+            )
         );
     }
 });
@@ -20854,6 +20884,6 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var ListManager = require('./components/ListManager.jsx');
 
-ReactDOM.render(React.createElement(ListManager, { title: 'Ingredients' }), document.getElementById('ingredients'));
+ReactDOM.render(React.createElement(ListManager, { title: 'To Do List' }), document.getElementById('ingredients'));
 
 },{"./components/ListManager.jsx":177,"react":173,"react-dom":1}]},{},[178]);
