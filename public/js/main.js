@@ -20815,17 +20815,20 @@ var List = require('./List.jsx');
 var ListManager = React.createClass({
     displayName: 'ListManager',
 
+    //Called once in component life cycle - an initializer
     getInitialState: function () {
         return { items: [], newItemText: '' };
     },
     onChange: function (e) {
+        //Update the state property every time a keystroke is typed
         this.setState({ newItemText: e.target.value });
     },
     handleSubmit: function (e) {
+        //stop the dafault form submit action
         e.preventDefault();
-
+        //Grab the current list of items
         var currentItems = this.state.items;
-
+        //Add the new items to the list
         currentItems.push(this.state.newItemText);
 
         this.setState({ items: currentItems, newItemText: '' });
@@ -20834,6 +20837,14 @@ var ListManager = React.createClass({
         var divStyle = {
             marginTop: 20
         };
+
+        var headingStyle = {};
+
+        if (this.props.headingColor) {
+            headingStyle.background = this.props.headingColor;
+        }
+        //onChange is called with every keystroke so we can store most recent data entered
+        //value is what the user sees in the input text box - we point this to newItemText so it updates on every form submit
         return React.createElement(
             'div',
             { style: divStyle, className: 'col-sm-4 col-md-4 col-md-4 col-xs-4' },
@@ -20842,7 +20853,7 @@ var ListManager = React.createClass({
                 { className: 'panel panel-primary' },
                 React.createElement(
                     'div',
-                    { className: 'panel-heading' },
+                    { className: 'panel-heading', style: headingStyle },
                     React.createElement(
                         'h3',
                         null,
@@ -20884,6 +20895,9 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var ListManager = require('./components/ListManager.jsx');
 
-ReactDOM.render(React.createElement(ListManager, { title: 'To Do List' }), document.getElementById('ingredients'));
+ReactDOM.render(React.createElement(ListManager, { title: 'Ingredients' }), document.getElementById('ingredients'));
+/* Reusablity of components */
+ReactDOM.render(React.createElement(ListManager, { title: 'To Do List' }), document.getElementById('todo'));
+ReactDOM.render(React.createElement(ListManager, { title: 'Christmas List', headingColor: '#e52d27' }), document.getElementById('christmas'));
 
 },{"./components/ListManager.jsx":177,"react":173,"react-dom":1}]},{},[178]);
